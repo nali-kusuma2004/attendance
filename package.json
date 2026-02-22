@@ -1,0 +1,14 @@
+{
+  "name": "attendance-project",
+  "version": "1.0.0",
+  "description": "root",
+  "private": true,
+  "scripts": {
+    "server": "npm run dev --prefix backend",
+    "client": "npm run dev --prefix Attendance",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
