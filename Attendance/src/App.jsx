@@ -7,17 +7,14 @@ import Home from "./components/home";
 import ProtectedRoute from "./components/protectedroute";
 import UserDashboard from "./components/userdashboard.jsx";
 import { BrowserRouter,Routes,Route } from "react-router-dom";
-import {useState} from "react";
+import {useState,useEffect} from "react";
 import Asideblock from "./components/asideblock.jsx";
 export default function App(){
-  const [isopen , setisopen]=useState(false);
-    
-
+         const open=localStorage.getItem("opennavi");
   return (
     <>
        <BrowserRouter>
-
-        <Navbar />
+        {/* <Navbar /> */}
        <Routes>
         <Route path="/" element={ <Home />} /> 
         <Route path="/dashboard" element={ 
@@ -31,7 +28,7 @@ export default function App(){
             <UserDashboard />
           </ProtectedRoute>
         } />
-
+       
          <Route path="/staff" element={ <Staff />} />
          <Route path="/signin" element={<Signin />} />
          <Route path="/login" element={<Login />} />
@@ -40,6 +37,7 @@ export default function App(){
     </>
   )
 }
+
 
 
 //aside block need to toggle by using navbar instructions 

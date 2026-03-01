@@ -55,7 +55,7 @@ setloggeduser(username);
 localStorage.setItem("username", username);
 localStorage.setItem("role", userrole);
 
-        // console.log(data);
+        console.log(data);
        if(res.status===409){
         alert("User already exists"); 
         navigate("/login");   

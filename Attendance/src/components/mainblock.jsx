@@ -18,7 +18,8 @@ export default function Mainblock() {
         {name:"Failed Scans",content:"",url:""}
     ]
   return (
-        <section className="w-5/6 h-1/3 bg-gray-100 ">
+        <section className={` h-1/3 bg-gray-100`} >
+           <div></div>   
             {/* cards */}
             <div className="flex flex-wrap">
             {cards.map((item)=>(

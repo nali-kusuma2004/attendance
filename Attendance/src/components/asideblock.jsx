@@ -7,7 +7,14 @@ import {
   MdRequestPage,
   MdAddBox,
 } from "react-icons/md";
-export default function Asideblock() {
+import { useState,useEffect } from "react";
+
+export default function Asideblock({isopen}) {
+  // const [isopen, setisopen]=useState(false);
+  // const [selecteditem, setselecteditem]=useState("");
+
+  if(!isopen) return null ;
+
   const items = [
     { name: "Main Dashboard", icon: <MdDashboard size="28" color="blue" /> },
     { name: "Staff", icon: <MdPeople size="28" color="violet" /> },
@@ -19,9 +26,12 @@ export default function Asideblock() {
     { name: "Request", icon: <MdRequestPage size="28" color="yellow" /> },
     { name: "Additional", icon: <MdAddBox size="28" color="red" /> },
   ];
+
+  
   return (
     <>
-      <section className=" w-1/6 ">
+    {isopen  &&  <>
+      <section className={`${isopen} ? "w-1/6" :"w-0" `} >
         <div className="bg-linear-to-b from-black to-violet-800 pt-10 pb-45">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXaGW6CNj0_gGNGeDqPfxRAthVW8HOLWR4hg&s" className="pl-15 w-50 pb-10  bg-transparent "></img>
           {items.map((item, index) => (
@@ -35,7 +45,9 @@ export default function Asideblock() {
             </button>
           ))}
         </div>
-      </section>
+      </section> 
+      </>
+}
     </>
   );
 }
