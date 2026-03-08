@@ -1,29 +1,120 @@
-import React from 'react'
-import {FaTools} from "react-icons/fa"
-export default function Userdashboard() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-linear-to-r from-blue-900 to-purple-700 px-4">
-      <div className="bg-white/10 backdrop-blur-md rounded-2xl shadow-xl p-10 text-center max-w-md w-full">
-        
-        <FaTools className="text-6xl text-yellow-400 mx-auto mb-6 animate-bounce" />
+import React from "react";
+import { useState, useEffect } from "react";
+import Navbar from "./Navbar.jsx";
+export default function Userdashboard({ username }) {
+  const [student, setStudent] = useState({});
+  const [attendance] = useState({
+    total: 120,
+    present: 98,
+  });
 
-        <h1 className="text-3xl font-bold text-white mb-3">
-          Page Under Construction
+  const scanAttendance = async () => {
+    try {
+      const res = await fetch("http://localhost:8000/api/attendance", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          studentId: student._id,
+          rollNo: student.rollNo,
+        }),
+      });
+
+      const data = await res.json();
+
+      alert(data.message);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    const fetchStudent = async () => {
+      try {
+        const res = await fetch("http://localhost:8000/api/studentdata", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username }),
+        });
+
+        const data = await res.json();
+
+        setStudent(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchStudent();
+  }, [username]);
+
+  const percentage = ((attendance.present / attendance.total) * 100).toFixed(1);
+
+  return (
+
+    <>
+    <Navbar />
+
+    <div className="min-h-screen bg-gray-100 flex justify-center items-center" style={{backgroundImage:"url(https://image.slidesdocs.com/responsive-images/background/technology-clean-business-geometric-simple-blue-powerpoint-background_e3130f8dc2__960_540.jpg)" , backgroundSize:"cover"} }>
+      <div className="w-full max-w-3xl bg-blue-100 shadow-lg rounded-xl p-8">
+        <h1 className="text-3xl font-bold text-center mb-6">
+          Student Dashboard
         </h1>
 
-        <p className="text-gray-200 mb-6">
-          We’re working hard to bring you this feature.  
-          Please check back soon!
-        </p>
+        {/* Student Details */}
 
-        <div className="w-full bg-gray-300 rounded-full h-2 mb-6">
-          <div className="bg-green-500 h-2 rounded-full w-2/3 animate-pulse"></div>
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          <div className=" flex ">
+            <p className="text-gray-600 pr-3" >Name : </p>
+            <p className="font-semibold">{student.name}</p>
+          </div>
+
+          <div className=" flex ">
+            <p className="text-gray-600 pr-3">Roll No : </p>
+            <p className="font-semibold">{student.rollNo}</p>
+          </div>
+
+          <div className=" flex ">
+            <p className="text-gray-600 pr-3 ">Department : </p>
+            <p className="font-semibold">{student.department}</p>
+          </div>
+
+          <div className=" flex ">
+            <p className="text-gray-600 pr-3 ">Bio-metric ID : </p>
+            <p className="font-semibold">{student.biometricid}</p>
+          </div>
+
+          <div className="col-span-2  flex ">
+            <p className="text-gray-600 pr-3 ">Email : </p>
+            <p className="font-semibold">{student.email}</p>
+          </div>
         </div>
 
-        <p className="text-sm text-gray-300">
-          🚧 Biometric Attendance System
-        </p>
+        {/* Attendance Summary */}
+
+        <div className="bg-gray-50 rounded-lg p-4 mb-6">
+          <h2 className="text-xl font-semibold mb-3">Attendance Summary</h2>
+
+          <div className="flex justify-between">
+            <p>Total Classes: {attendance.total}</p>
+            <p>Present: {attendance.present}</p>
+            <p className="font-bold text-green-600">{percentage}%</p>
+          </div>
+          </div>
+          <div className="flex justify-center">
+            <button
+              onClick={scanAttendance}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-lg transition"
+            >
+              🧬 Scan Fingerprint for Attendance
+            </button>
+          </div>
+      
       </div>
     </div>
-  )
-};
+    </>
+  );
+}

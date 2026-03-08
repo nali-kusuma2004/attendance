@@ -8,13 +8,19 @@ import ProtectedRoute from "./components/protectedroute";
 import UserDashboard from "./components/userdashboard.jsx";
 import { BrowserRouter,Routes,Route } from "react-router-dom";
 import {useState,useEffect} from "react";
+import Forgotpasswd from "./components/forgotpasswd.jsx";
 import Asideblock from "./components/asideblock.jsx";
+import Addstudent from "./components/addstudent.jsx" ;
 export default function App(){
-         const open=localStorage.getItem("opennavi");
+        //  const open=localStorage.getItem("opennavi");
+
+        
   return (
     <>
        <BrowserRouter>
-        {/* <Navbar /> */}
+        
+        {/* <Navbar togglesidebar={togglesidebar} isopen={open} /> */}
+         
        <Routes>
         <Route path="/" element={ <Home />} /> 
         <Route path="/dashboard" element={ 
@@ -32,6 +38,8 @@ export default function App(){
          <Route path="/staff" element={ <Staff />} />
          <Route path="/signin" element={<Signin />} />
          <Route path="/login" element={<Login />} />
+         <Route path="/forgotpasswd" element={ <Forgotpasswd />}/>
+         <Route path="/addstudent" element={<Addstudent />} />
        </Routes>
        </BrowserRouter>
     </>

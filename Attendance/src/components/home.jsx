@@ -3,6 +3,7 @@ import { FaQuestionCircle } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa6";
 import { useEffect } from "react";
 import { SiTicktick } from "react-icons/si";
+import Navbar from "./Navbar.jsx";
 export default function Home() {
   const navigate = useNavigate();
 
@@ -12,6 +13,9 @@ export default function Home() {
       localStorage.clear();
   }, []);
   return (
+    <>
+     
+ <Navbar />
     <div
       className="min-h-screen  bg-linear-to-br from-blue-50 to-indigo-100  pt-12 bg-cover"
       style={{
@@ -116,7 +120,7 @@ export default function Home() {
         System. All rights reserved.
       </footer>
 </div>
-    
+    </>
   );
 }
 

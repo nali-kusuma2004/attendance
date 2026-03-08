@@ -9,7 +9,7 @@ export default function Dashboard() {
   // const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
   const [isauthenticated, setisauthenticated] = useState(false);
-  const [open, setopen] = useState(false);
+  const [open, setopen] = useState(true);
   const isopen = localStorage.getItem("opennavi");
 
   const togglesidebar = (state) => {
@@ -49,8 +49,9 @@ export default function Dashboard() {
   return (
     <>
       {/* { isauthenticated  && <Asideblock /> }  */}
-      <Navbar togglesidebar={togglesidebar} isopen={open} />
+     <Navbar togglesidebar={togglesidebar} isopen={open} />
       <section className=" flex w-full">
+        
         {isauthenticated && open && (
           <div
             className={`transition-all duration-300 ${
@@ -64,7 +65,7 @@ export default function Dashboard() {
         <div
           className={`${open ? "w-5/6" : "w-full"} transition-all duration-300`}
         >
-          <Mainblock />
+          <Mainblock width={open} />
         </div>
         {/* {error && <p className="text-red-600 text-center mt-4">{error}</p>} */}
       </section>

@@ -8,6 +8,7 @@ import { useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { LuEyeClosed } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
 export default function Login() {
   const [active, setactive] = React.useState(false);
   const [userrole, setuserrole] = React.useState("");
@@ -61,7 +62,8 @@ export default function Login() {
       localStorage.setItem("role",data.role);
       seterr("");
       if(data.role==="user"){
-        navigate("/userdashboard");
+        navigate("/userdashboard" ,{
+        state:{username: form.username} })
       }
       else{
         navigate("/dashboard");
@@ -80,6 +82,9 @@ export default function Login() {
   }
 
   return (
+    <>
+     <Navbar />
+    
     <section className="bg-linear-to-l from-blue-900 to-purple-600 h-180 w-full flex items-center justify-center bg-cover">
       <div
         className="flex  rounded-lg shadow-lg w-300 h-150 bg-cover"
@@ -174,9 +179,15 @@ export default function Login() {
             />
           )}
           <br></br>
-          {/* <p className=" font-bold text-sm mb-4 text-red-600 ml-85">
-            Forgot Password ?
-          </p> */}
+          <label className="float-right">
+                  <a
+                    href="#"
+                    className="text-blue-500 hover:text-blue-700 text-sm"
+                    onClick={()=>{navigate("/forgotpasswd")}}
+                  >
+                    Forgot Password?
+                  </a>
+                </label>
           {err && (
             <p className=" font-bold text-sm mb-4 text-red-600 mt-0 ml-10">{err}</p>
           )}
@@ -206,5 +217,6 @@ export default function Login() {
         </form>
       </div>
     </section>
+    </>
   );
 }

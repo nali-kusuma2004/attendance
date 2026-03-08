@@ -18,10 +18,10 @@ export default function Mainblock() {
         {name:"Failed Scans",content:"",url:""}
     ]
   return (
-        <section className={` h-1/3 bg-gray-100`} >
+        <section className={`  bg-gray-100`} >
            <div></div>   
             {/* cards */}
-            <div className="flex flex-wrap">
+            <div className="flex flex-wrap pb-4">
             {cards.map((item)=>(
                 <Cards  name={item.name} value={item.content} url={item.url}/>
             ))}
