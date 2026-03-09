@@ -8,7 +8,7 @@ export default function Navbar({username, togglesidebar}) {
     const isOpen=localStorage.getItem("opennavi") === "true";
     const user= username || localStorage.getItem("username");
 
-    console.log("Navbar user:", user);
+    // console.log("Navbar user:", user);
     // localStorage.setItem("opennavi", !(isOpen).toString()); 
     // console.log(opennavi);
     function handletoggle(){

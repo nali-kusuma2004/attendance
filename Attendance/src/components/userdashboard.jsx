@@ -1,12 +1,16 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Navbar from "./Navbar.jsx";
-export default function Userdashboard({ username }) {
+export default function Userdashboard( ) {
   const [student, setStudent] = useState({});
-  const [attendance] = useState({
-    total: 120,
-    present: 98,
+  const [attendance, setattendance] = useState({
+    total:30,
+    present:0,
+    absent:0,
+    percentage:0
   });
+
+  const username=localStorage.getItem("username") 
 
   const scanAttendance = async () => {
     try {
@@ -16,8 +20,9 @@ export default function Userdashboard({ username }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          studentId: student._id,
+          biometricid:student.biometricid,
           rollNo: student.rollNo,
+          status:"Present"
         }),
       });
 
@@ -37,7 +42,7 @@ export default function Userdashboard({ username }) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ username }),
+          body: JSON.stringify({ username : username }),
         });
 
         const data = await res.json();
@@ -50,6 +55,33 @@ export default function Userdashboard({ username }) {
 
     fetchStudent();
   }, [username]);
+
+
+  useEffect(() => {
+
+  const fetchAttendance = async () => {
+
+    if(!student.biometricid) return;
+
+    try{
+
+      const res = await fetch(
+        `http://localhost:8000/api/attendance/${student.biometricid}`
+      );
+
+      const data = await res.json();
+
+      setattendance(data);
+
+    }catch(err){
+      console.log(err);
+    }
+
+  };
+
+  fetchAttendance();
+
+}, [student]);
 
   const percentage = ((attendance.present / attendance.total) * 100).toFixed(1);
 
@@ -99,8 +131,9 @@ export default function Userdashboard({ username }) {
           <h2 className="text-xl font-semibold mb-3">Attendance Summary</h2>
 
           <div className="flex justify-between">
-            <p>Total Classes: {attendance.total}</p>
+            <p>Days: {attendance.total}</p>
             <p>Present: {attendance.present}</p>
+            <p>Absent : {attendance.absent}</p>
             <p className="font-bold text-green-600">{percentage}%</p>
           </div>
           </div>

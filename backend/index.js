@@ -284,33 +284,103 @@ server.post("/api/studentdata", async (req,res)=>{
 
 const {username} = req.body;
 
-const student = await Student.findOne({username});
+const student = await Student.findOne({ name: username });
 
 if(!student){
   return res.status(404).json({
     message:"Student not found"
   })
 }
-
+// console.log(student);
 res.json(student);
 
 })
 
 //attendance mark 
-server.post("/api/attendance", async (req,res)=>{
+server.post("/api/attendance", async (req, res) => {
+  try {
 
-const { studentID } = req.body;
+    const { rollNo, biometricid } = req.body;
 
-const attendance = new Attendance({
-  studentID,
-  date: new Date()
+    const student = await Student.findOne({
+      rollNo: rollNo,
+      biometricid: biometricid
+    });
+    // console.log(student);
+    if (!student) {
+      return res.json({ message: "Student not found" });
+    }
+
+    // Start of today
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+
+    // End of today
+    const end = new Date();
+    end.setHours(23, 59, 59, 999);
+
+    const alreadyMarked = await Attendance.findOne({
+      biometricid : biometricid,
+      date: { $gte: start, $lte: end }
+    });
+
+    if (alreadyMarked) {
+      return res.json({ message: "Attendance already marked today" });
+    }
+
+    const attendance = new Attendance({
+      studentId: student._id,
+      biometricid: student.biometricid,
+      status: "Present",
+      date: new Date()
+    });
+
+    await attendance.save();
+
+    res.json({ message: "Attendance marked successfully" });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
-await attendance.save();
+server.get("/api/attendance/:biometricid", async (req, res) => {
 
-res.json({
-message:"Attendance marked successfully"
+  const biometricid = req.params.biometricid;
+
+  try {
+
+    const today = new Date();
+
+    // first day of month
+    const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+    // total classes = days passed in month
+    const total = today.getDate();
+
+    // count present days
+    const present = await Attendance.countDocuments({
+      biometricid:biometricid,
+      status: "Present",
+      date: { $gte: startOfMonth }
+    });
+
+    const absent=total-present;
+    const percentage = total > 0
+      ? ((present / total) * 100).toFixed(1)
+      : 0;
+
+    res.json({
+      total,
+      present,
+      absent,
+      percentage
+    });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Error fetching attendance" });
+  }
+
 });
-
-})
-

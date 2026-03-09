@@ -33,14 +33,20 @@ const attendanceSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Student"
   },
-  rollno:String,
+  biometricid: {
+    type :String
+  },
+  rollNo:{
+    type:String
+  },
   date: {
     type: Date,
     default: Date.now
   },
   status: {
     type: String,
-    default: "Present"
+    enum: ["Present", "Absent"],
+    default: "Absent"
   }
 });
 
@@ -50,6 +56,6 @@ const student = mongoose.model("Student", studentSchema);
 
 const staff = mongoose.model("Staff", staffSchema);
 
-const user =mongoose.model("user1 ", UserSchema);
+const user =mongoose.model("User1 ", UserSchema);
 
 module.exports={User1:user,staff:staff, Student: student, Attendance : attendance}

@@ -62,8 +62,7 @@ export default function Login() {
       localStorage.setItem("role",data.role);
       seterr("");
       if(data.role==="user"){
-        navigate("/userdashboard" ,{
-        state:{username: form.username} })
+        navigate("/userdashboard");
       }
       else{
         navigate("/dashboard");

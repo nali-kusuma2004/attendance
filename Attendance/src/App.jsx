@@ -5,12 +5,13 @@ import Signin from "./components/signin";
 import Login from "./components/login";
 import Home from "./components/home";
 import ProtectedRoute from "./components/protectedroute";
-import UserDashboard from "./components/userdashboard.jsx";
+// import UserDashboard from "./components/userdashboard.jsx";
 import { BrowserRouter,Routes,Route } from "react-router-dom";
 import {useState,useEffect} from "react";
 import Forgotpasswd from "./components/forgotpasswd.jsx";
 import Asideblock from "./components/asideblock.jsx";
-import Addstudent from "./components/addstudent.jsx" ;
+import Addstudent from "./components/addstudent.jsx";
+import Userdashboard from "./components/userdashboard.jsx";
 export default function App(){
         //  const open=localStorage.getItem("opennavi");
 
@@ -31,7 +32,7 @@ export default function App(){
         } />
         <Route path="/userdashboard" element={
           <ProtectedRoute allowedRoles={['user']}>
-            <UserDashboard />
+            <Userdashboard />
           </ProtectedRoute>
         } />
        
@@ -40,6 +41,7 @@ export default function App(){
          <Route path="/login" element={<Login />} />
          <Route path="/forgotpasswd" element={ <Forgotpasswd />}/>
          <Route path="/addstudent" element={<Addstudent />} />
+         {/* <Route path="/userdashboard" element={<Userdashboard />} /> */}
        </Routes>
        </BrowserRouter>
     </>
