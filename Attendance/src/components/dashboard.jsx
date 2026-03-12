@@ -9,20 +9,23 @@ export default function Dashboard() {
   // const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
   const [isauthenticated, setisauthenticated] = useState(false);
-  const [open, setopen] = useState(true);
-  const isopen = localStorage.getItem("opennavi");
+  // const [open, setopen] = useState(true);
+  const [open, setopen] = useState(() => {
+  return localStorage.getItem("opennavi") === "true";
+});
+  // const isopen = localStorage.getItem("opennavi");
 
-  const togglesidebar = (state) => {
-    setopen(state);
-  };
+  // const togglesidebar = (state) => {
+  //   setopen(state);
+  // };
 
   useEffect(() => {
+    const navState = localStorage.getItem("opennavi");
     const token = localStorage.getItem("token");
     if (token) {
       setisauthenticated(true);
     }
 
-    const navState = localStorage.getItem("opennavi");
 
     if (navState === "true") {
       setopen(true);
@@ -49,13 +52,13 @@ export default function Dashboard() {
   return (
     <>
       {/* { isauthenticated  && <Asideblock /> }  */}
-     <Navbar togglesidebar={togglesidebar} isopen={open} />
+     {/* <Navbar togglesidebar={togglesidebar} isopen={open} /> */}
       <section className=" flex w-full">
         
         {isauthenticated && open && (
           <div
             className={`transition-all duration-300 ${
-              isopen ? "w-1/6" : "w-0"
+              open ? "w-1/6" : "w-0"
             } `}
           >
             <Asideblock isopen={open} />{" "}

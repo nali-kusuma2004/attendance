@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <>
      
- <Navbar />
+ {/* <Navbar /> */}
     <div
       className="min-h-screen  bg-linear-to-br from-blue-50 to-indigo-100  pt-12 bg-cover"
       style={{

@@ -82,7 +82,7 @@ export default function Login() {
 
   return (
     <>
-     <Navbar />
+     {/* <Navbar /> */}
     
     <section className="bg-linear-to-l from-blue-900 to-purple-600 h-180 w-full flex items-center justify-center bg-cover">
       <div

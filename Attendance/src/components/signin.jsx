@@ -20,13 +20,18 @@ export default function Signin() {
   const navigate=useNavigate();
   const [active,setactive]=useState(false);
   const [err,seterr]=useState("");
-  const [userrole,setuserrole]=useState(""); 
+  const [userrole,setuserrole]=useState("admin"); 
   const [page,setpage]=useState("signin");
   
   function handleuser(e){
     e.preventDefault();
     setactive(!active);
     const role=e.target.innerText.split(" ")[0].toLowerCase();
+    if(role===" "){
+      alert("Please select a role");
+      return;
+    }
+    console.log(role);
     setuserrole(role);
     setform({...form,role:role});  
   }
@@ -97,7 +102,7 @@ useEffect(() => {
 }, []);
   return (
     <>
-     <Navbar />
+     {/* <Navbar /> */}
       <section
         className="h-180 w-full bg-cover bg-center "
         style={{

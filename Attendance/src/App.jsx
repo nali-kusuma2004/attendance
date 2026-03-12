@@ -12,17 +12,23 @@ import Forgotpasswd from "./components/forgotpasswd.jsx";
 import Asideblock from "./components/asideblock.jsx";
 import Addstudent from "./components/addstudent.jsx";
 import Userdashboard from "./components/userdashboard.jsx";
+// import Layout from "./components/layout.jsx";
 export default function App(){
         //  const open=localStorage.getItem("opennavi");
+const [open, setopen] = useState(true);
 
+  const togglesidebar = (state) => {
+    setopen(state);
+  };
         
   return (
     <>
        <BrowserRouter>
         
-        {/* <Navbar togglesidebar={togglesidebar} isopen={open} /> */}
-         
+        <Navbar togglesidebar={togglesidebar} isopen={open} />
+        {/* <Layout /> */}
        <Routes>
+         {/* <Route element={<Layout />}></Route> */}
         <Route path="/" element={ <Home />} /> 
         <Route path="/dashboard" element={ 
           <ProtectedRoute allowedRoles={['admin']}>

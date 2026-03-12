@@ -57,7 +57,7 @@ const handleSubmit = async (e) => {
 
 return (
     <> 
-     <Navbar />
+     {/* <Navbar /> */}
 <div className="h-190 p-4 " style={{backgroundImage:"url(https://t4.ftcdn.net/jpg/06/34/14/27/360_F_634142702_krpVzitHatLALEzzwN5TXBJGr8JeOr1C.jpg)" , backgroundSize:"cover"}}>
 
 <h1 className="text-4xl font-bold mb-6 text-yellow-400 pl-200 " style={{textShadow :"2px 2px 4px yellow"}}>Add Student</h1>

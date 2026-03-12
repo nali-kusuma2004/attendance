@@ -88,7 +88,7 @@ export default function Userdashboard( ) {
   return (
 
     <>
-    <Navbar />
+    {/* <Navbar /> */}
 
     <div className="min-h-screen bg-gray-100 flex justify-center items-center" style={{backgroundImage:"url(https://image.slidesdocs.com/responsive-images/background/technology-clean-business-geometric-simple-blue-powerpoint-background_e3130f8dc2__960_540.jpg)" , backgroundSize:"cover"} }>
       <div className="w-full max-w-3xl bg-blue-100 shadow-lg rounded-xl p-8">

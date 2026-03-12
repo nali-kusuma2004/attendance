@@ -1,14 +1,24 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
+import { FaEye } from "react-icons/fa";
+import { LuEyeClosed } from "react-icons/lu";
 import Navbar from "./Navbar";
 
 export default function Forgotpasswd() {
 
   const navigate = useNavigate();
-
+  const [showpass, setshowpass] = useState(true);
+  const [showpassco,setshowpassco] = useState(true);
   const [step, setStep] = useState(1);
   const [form, setForm] = useState({ user: "", password: "", confirmPassword: "" });
+ function showpassword() {
+    setshowpass(!showpass);
+ }
+ function showpassword1() {
+    setshowpassco(!showpassco);
+ }
+
 
     function resetpasswd() {
         // Implement password reset logic here
@@ -27,10 +37,10 @@ export default function Forgotpasswd() {
           .then(data => {
             if (data.success) {
               alert("Password reset successful!");
-              console.log(form);
+              // console.log(form);
               navigate("/login");
             } else {
-              alert("Password reset failed: " + data.message);
+              // alert("Password reset failed: " + data.message);
             }
         })
     }
@@ -85,20 +95,50 @@ export default function Forgotpasswd() {
               </label>
 
               <input
-                type="password"
+                type={showpass ? "password" : "text"}
                 placeholder="Enter new password"
                 className="w-full border rounded-lg p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-green-400"
               />
+              {!showpass ? (
+                          <FaEye
+                            size="20"
+                            color="blue"
+                            onClick={() => showpassword()}
+                            className="relative bottom-11 left-70 text-gray-500 cursor-pointer"
+                          />
+                        ) : (
+                          <LuEyeClosed
+                            size="20"
+                            color="orange"
+                            onClick={() => showpassword()}
+                            className="relative bottom-11 left-70 text-gray-500 cursor-pointer"
+                          />
+                        )}
 
               <label className="block mb-2 font-medium">
                 Confirm Password
               </label>
 
               <input
-                type="password"
+                type={showpassco ?"password" :"text"}
                 placeholder="Confirm password"
                 className="w-full border rounded-lg p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-green-400"
               />
+              {!showpassco ? (
+                          <FaEye
+                            size="20"
+                            color="blue"
+                            onClick={() => showpassword1()}
+                            className="relative bottom-11 left-70 text-gray-500 cursor-pointer"
+                          />
+                        ) : (
+                          <LuEyeClosed
+                            size="20"
+                            color="orange"
+                            onClick={() => showpassword1()}
+                            className="relative bottom-11 left-70 text-gray-500 cursor-pointer"
+                          />
+                        )}
 
               <button
                 className="w-full bg-green-600 text-white p-2 rounded-lg hover:bg-green-700 transition"

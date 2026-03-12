@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   MdDashboard,
   MdPeople,
@@ -12,12 +13,12 @@ import { useState,useEffect } from "react";
 export default function Asideblock({isopen}) {
   // const [isopen, setisopen]=useState(false);
   // const [selecteditem, setselecteditem]=useState("");
-
+  const Navigate=useNavigate();
   if(!isopen) return null ;
 
   const items = [
-    { name: "Main Dashboard", icon: <MdDashboard size="28" color="blue" /> },
-    { name: "Staff", icon: <MdPeople size="28" color="violet" /> },
+    { name: "Main Dashboard", icon: <MdDashboard size="28" color="blue" /> , path:"/dashboard"},
+    { name: "Staff", icon: <MdPeople size="28" color="violet" /> ,path:"/staff"},
     {
       name: "Attendance",
       icon: <MdOutlineAccessTime size="28" color="cyan" />,
@@ -39,6 +40,7 @@ export default function Asideblock({isopen}) {
               key={index}
               className=" flex items-center px-6 py-6 w-full text-white hover:bg-amber-300 hover:text-black"
               style={{ borderBottom: "2px solid white" }}
+              onClick={()=>{Navigate(item.path)}}
               >
               <span className="pr-5">{item.icon}</span>
               <span className="text-l font-medium">{item.name}</span>

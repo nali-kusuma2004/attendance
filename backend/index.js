@@ -15,7 +15,7 @@ const userroutes=require("./routes/userroutes");
 server.use(cors());
 server.use(express.json());
 server.use("/api",userroutes);
-const url="mongodb+srv://nalikusuma2004_db_user:kusuma12@cluster0.wtyue9h.mongodb.net/userdata?retryWrites=true&w=majority";
+const url="mongodb+srv://nalikusuma2004_db_user:attendance123@cluster0.wtyue9h.mongodb.net/userdata?retryWrites=true&w=majority";
 
 mongoose.connect(url)
 .then(()=>console.log("Connected to MongoDB"))
@@ -382,5 +382,77 @@ server.get("/api/attendance/:biometricid", async (req, res) => {
     console.log(err);
     res.status(500).json({ message: "Error fetching attendance" });
   }
+
+});
+
+
+server.get("/api/today-attendance", async (req, res) => {
+  try {
+
+    const start = new Date();
+    start.setHours(0,0,0,0);
+
+    const end = new Date();
+    end.setHours(23,59,59,999);
+
+    const attendance = await Attendance.find({
+      date: { $gte: start, $lte: end }
+    }).populate("studentId");
+
+    res.json(attendance);
+
+  } catch (err) {
+    res.status(500).json({error:"Server error"});
+  }
+});
+
+
+server.get("/api/dept-attendance", async (req,res)=>{
+
+ try{
+
+  const start = new Date();
+  start.setHours(0,0,0,0);
+
+  const end = new Date();
+  end.setHours(23,59,59,999);
+
+  const data = await Attendance.aggregate([
+
+    {
+      $match:{
+        date:{ $gte:start, $lte:end },
+        status:"Present"
+      }
+    },
+
+    {
+      $lookup:{
+        from:"students",
+        localField:"studentId",
+        foreignField:"_id",
+        as:"student"
+      }
+    },
+
+    {
+      $unwind:"$student"
+    },
+
+    {
+      $group:{
+        _id:"$student.department",
+        total:{ $sum:1 }
+      }
+    }
+
+  ]);
+
+  res.json(data);
+
+ }
+ catch(err){
+  res.status(500).json({error:"Server error"});
+ }
 
 });

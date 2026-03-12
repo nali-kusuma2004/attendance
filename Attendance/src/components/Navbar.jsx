@@ -5,20 +5,20 @@ import {useState} from "react";
 import Asideblock from "./asideblock";
 export default function Navbar({username, togglesidebar}) {
     const navigate=useNavigate();
-    const isOpen=localStorage.getItem("opennavi") === "true";
+    const isOpen=localStorage.getItem("opennavi")==="true";
     const user= username || localStorage.getItem("username");
 
     // console.log("Navbar user:", user);
     // localStorage.setItem("opennavi", !(isOpen).toString()); 
-    // console.log(opennavi);
+    console.log(isOpen);
     function handletoggle(){
-      const newstate=!(isOpen);
+      const newstate=(!isOpen);
       localStorage.setItem("opennavi", newstate);
       console.log("Toggled opennavi to:", newstate)
       togglesidebar(newstate);
 
+    
     }
-
      return (
     <>  
 

@@ -12,6 +12,9 @@
     "concurrently": "^8.2.2"
   },
   "dependencies": {
-    "emailjs": "^5.0.0"
+    "chart.js": "^4.5.1",
+    "emailjs": "^5.0.0",
+    "react-chartjs-2": "^5.3.1",
+    "recharts": "^2.12.7"
   }
 }
