@@ -31,6 +31,7 @@ export default function Liveattendance() {
 (
                   <>
                     <li className="flex justify-around bg-purple-400 text-white  p-1 rounded-lg">
+                      <span className="font-bold">✅</span>
                       <span className="font-medium pl-2">{entry.biometricid}</span>
                       <span className=" font-bold">{entry.studentId.name}</span>
                       <span className="text-red-600 pr-2">{new Date(entry.date).toLocaleTimeString()}</span>

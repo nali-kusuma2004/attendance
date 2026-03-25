@@ -1,6 +1,4 @@
-
 const express=require("express");
-
 const PORT=8000;
 const server=express();
 const mongoose=require("mongoose");
@@ -10,6 +8,11 @@ const jwt=require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const secretkey="secret";
 const userroutes=require("./routes/userroutes");
+const { deviceconnec } = require("./deviceconnection/deviceconn");
+server.get("/sync",async (req,res)=>{
+  const result= await deviceconnec();
+  res.json({message: "successfull ",data:result});
+})
 
 
 server.use(cors());
@@ -455,4 +458,55 @@ server.get("/api/dept-attendance", async (req,res)=>{
   res.status(500).json({error:"Server error"});
  }
 
+});
+
+
+server.post("/api/attendancelogs", async (req, res) => {
+  try {
+    const logs = req.body.logs;
+
+    if (!logs || logs.length === 0) {
+      return res.status(400).json({ message: "No logs received" });
+    }
+
+    for (let log of logs) {
+      const biometricid = String(log.deviceUserId);
+
+      // Find the student by biometric ID
+      const student = await Student.findOne({ biometricid });
+      if (!student) {
+        console.log("Student not found for ID:", biometricid);
+        continue; // skip if no student
+      }
+
+      // Check if any attendance exists for this student
+      const alreadyMarked = await Attendance.findOne({
+        biometricid: biometricid
+      });
+
+      if (alreadyMarked) {
+        console.log(`Attendance already exists for ${student.name}, skipping.`);
+        continue; // skip if already present in DB
+      }
+
+      // Save attendance as Present
+      await Attendance.create({
+        studentId: student._id,
+        biometricid: student.biometricid,
+        rollNo: student.rollNo,
+        status: "Present",
+        date: new Date(log.recordTime)
+      });
+
+      console.log(`Attendance saved for ${student.name}`);
+    }
+
+    res.json({
+      message: "Attendance synced successfully"
+    });
+
+  } catch (err) {
+    console.error("Error saving attendance:", err);
+    res.status(500).json({ message: "Error saving attendance" });
+  }
 });
