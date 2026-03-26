@@ -19,12 +19,12 @@ const staffSchema = new mongoose.Schema({
 
 const studentSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  rollNo: { type: String, required: true, unique: true },
+  rollNo: { type: String },
   department: { type: String },
   year: { type: String },
   email: { type: String },
   phone: { type: String },
-  biometricid: { type: String }
+  biometricId: { type: String,unique:true ,sparse:true}
   
 });
 
@@ -33,22 +33,34 @@ const attendanceSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Student"
   },
-  biometricid: {
+  rollNo: String,
+  biometricId: {
     type :String
   },
-  rollNo:{
+  department:{
     type:String
   },
-  date: {
+  year:String,
+  // timestamp: {
+  //   type: Date,
+  //   default: Date.now
+  // }, 
+  date:{
     type: Date,
     default: Date.now
-  },
+  } ,  
   status: {
     type: String,
     enum: ["Present", "Absent"],
-    default: "Absent"
-  },
+    default: "present "
+  }
 });
+
+attendanceSchema.index(
+  { biometricId: 1, date: 1 },
+  { unique: true }
+);
+
 
 const attendance = mongoose.model("Attendance", attendanceSchema);
 

@@ -8,7 +8,7 @@ const [formData, setFormData] = useState({
   department: "",
   email: "",
   phone: "",
-  biometricid: "",
+  biometricId: "",
 });
 
 const [message, setMessage] = useState("");
