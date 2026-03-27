@@ -1,4 +1,5 @@
 const express=require("express");
+const multer = require("multer");
 const PORT=8000;
 const server=express();
 const mongoose=require("mongoose");
@@ -56,6 +57,13 @@ server.listen(PORT,()=>{
 //         });
 //     });
 
+const storage = multer.memoryStorage();
+const upload = multer({
+  storage,
+  limits: { fileSize: 16 * 1024 * 1024 }, // 16 MB
+});
+
+
 server.post("/sign", async (req, res) => {
 
 const { username, password, role } = req.body;
@@ -83,7 +91,7 @@ const newUser = new User1({
 });
 
 await newUser.save();
-
+console.log("New user created:", newUser);
 res.status(201).json({
   message:"User created successfully"
 });
@@ -216,11 +224,16 @@ message:"Password reset successful"
 })
 
 // add student
-server.post("/api/student", async (req, res) => {
+server.post("/api/student",upload.single("image"), async (req, res) => {
   try {
 
     const newStudent = new Student(req.body);
-
+    if(req.file){
+   newStudent.photo = {
+    data: req.file.buffer,
+    contentType: req.file.mimetype
+  }
+}
     await newStudent.save();
 
     res.status(201).json({

@@ -18,12 +18,28 @@ const staffSchema = new mongoose.Schema({
 })
 
 const studentSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  rollNo: { type: String },
-  department: { type: String },
-  year: { type: String },
-  email: { type: String },
-  phone: { type: String },
+    fullName: { type: String, required: true },
+    dob: { type: Date },
+    gender: { type: String },
+    bloodGroup: { type: String },
+    aadhaar: { type: String },
+    phone: { type: String, required: true },
+    email: { type: String, required: true },
+    address: { type: String },
+    parentPhone: { type: String },
+    rollNo: { type: String, required: true ,unique: true },
+    course: { type: String },
+    branch: { type: String },
+    year: { type: String },
+    section: { type: String },
+    admissionDate: { type: Date },
+    category: { type: String },
+    entrance: { type: String },
+    fatherName: { type: String },
+    motherName: { type: String },
+    occupation: { type: String },
+    photo: { data:Buffer,contentType:String}, // store URL or filename
+    timestamps: {type: Date, default: Date.now} ,
   biometricId: { type: String,unique:true ,sparse:true}
   
 });

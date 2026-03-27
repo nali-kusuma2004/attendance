@@ -12,6 +12,7 @@ import Forgotpasswd from "./components/forgotpasswd.jsx";
 import Asideblock from "./components/asideblock.jsx";
 import Addstudent from "./components/addstudent.jsx";
 import Userdashboard from "./components/userdashboard.jsx";
+import Userform from "./components/userform.jsx"; 
 // import Layout from "./components/layout.jsx";
 export default function App(){
         //  const open=localStorage.getItem("opennavi");
@@ -47,6 +48,7 @@ const [open, setopen] = useState(true);
          <Route path="/login" element={<Login />} />
          <Route path="/forgotpasswd" element={ <Forgotpasswd />}/>
          <Route path="/addstudent" element={<Addstudent />} />
+         <Route path="/userform" element={<Userform />} />   
          {/* <Route path="/userdashboard" element={<Userdashboard />} /> */}
        </Routes>
        </BrowserRouter>

@@ -4,105 +4,100 @@ import { BsPersonCircle } from "react-icons/bs";
 import { FaEye } from "react-icons/fa6";
 import { useState } from "react";
 import { LuEyeClosed } from "react-icons/lu";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Navbar from "./Navbar";
 export default function Signin() {
-
-
   const [showpass, setshowpass] = useState(false);
-  const [form ,setform]=useState({
-    username:"",
-    password:"",
-    role:"",
+  const [form, setform] = useState({
+    username: "",
+    password: "",
+    role: "",
   });
-  const[loggeduser,setloggeduser]=useState("");
-  const navigate=useNavigate();
-  const [active,setactive]=useState(false);
-  const [err,seterr]=useState("");
-  const [userrole,setuserrole]=useState("admin"); 
-  const [page,setpage]=useState("signin");
-  
-  function handleuser(e){
+  const [loggeduser, setloggeduser] = useState("");
+  const [mode, setMode] = useState("signin");
+  const navigate = useNavigate();
+  const [active, setactive] = useState(false);
+  const [err, seterr] = useState("");
+  const [userrole, setuserrole] = useState("admin");
+  const [page, setpage] = useState("signin");
+
+  function handleuser(e) {
     e.preventDefault();
     setactive(!active);
-    const role=e.target.innerText.split(" ")[0].toLowerCase();
-    if(role===" "){
+    const role = e.target.innerText.split(" ")[0].toLowerCase();
+    if (role === " ") {
       alert("Please select a role");
       return;
     }
     console.log(role);
     setuserrole(role);
-    setform({...form,role:role});  
+    setform({ ...form, role: role });
   }
-  
 
-
-
-  async function handledata(e){
-      e.preventDefault();
-    if(!validatePassword(form.password)){
-       seterr("Password must be at least 8 characters long and include uppercase, lowercase, number, and special character like @,$,!,%,*,?,&.");
-    }
-    else{
-      try{
-      const res=await fetch("http://localhost:8000/sign",{
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json"
-        },
-        body:JSON.stringify(form),
-      });
-      //  console.log(res);
-      //  console.log(userrole);
-       const data= await res.json();
-         const username = form.username;
-setloggeduser(username);
-localStorage.setItem("username", username);
-localStorage.setItem("role", userrole);
+  async function handledata(e) {
+    e.preventDefault();
+    if (!validatePassword(form.password)) {
+      seterr(
+        "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character like @,$,!,%,*,?,&.",
+      );
+    } else {
+      try {
+        const res = await fetch("http://localhost:8000/sign", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
+        });
+        //  console.log(res);
+        //  console.log(userrole);
+        const data = await res.json();
+        const username = form.username;
+        setloggeduser(username);
+        localStorage.setItem("username", username);
+        localStorage.setItem("role", userrole);
 
         console.log(data);
-       if(res.status===409){
-        alert("User already exists"); 
-        navigate("/login");   
-       }
-       if(res.status===201){
-        alert("User Created Successfully");
-         navigate("/dashboard");
-       }
+        if (res.status === 409) {
+          alert("User already exists");
+          navigate("/login");
+        }
+        if (res.status === 201) {
+          alert("User Created Successfully");
+          navigate("/dashboard");
+        }
 
-       seterr("");
-       setform({
-      username:"",
-      password:""
+        seterr("");
+        setform({
+          username: "",
+          password: "",
         });
 
-      setpage("dashboard");
-  }
-    catch(err){
-      console.error("Error during sign in:", err);
+        setpage("dashboard");
+      } catch (err) {
+        console.error("Error during sign in:", err);
+      }
     }
   }
-}
-
 
   function showpassword() {
     setshowpass(!showpass);
   }
 
   const validatePassword = (password) => {
-  const regex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-  return regex.test(password);
-};
+    const regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return regex.test(password);
+  };
 
-useEffect(() => {
-  localStorage.removeItem("username");
-  localStorage.removeItem("role");
-}, []);
+  useEffect(() => {
+    localStorage.removeItem("username");
+    localStorage.removeItem("role");
+  }, []);
   return (
     <>
-     {/* <Navbar /> */}
+      {/* <Navbar /> */}
       <section
         className="h-180 w-full bg-cover bg-center "
         style={{
@@ -180,104 +175,177 @@ useEffect(() => {
           </div>
 
           <div className=" relative w-1/2 p-10   h-full justify-center items-center float-right">
-            <form className=" bg-white min-h-full rounded-xl p-10" >
+            <form className=" bg-white min-h-full rounded-xl p-10">
               <BsPersonCircle
-                size="80" color="black"
+                size="80"
+                color="black"
                 className="w-full text-blue-700 opacity-70"
               />
-              <h3 className="text-2xl text-orange-600 font-bold mb-6 mt-5 pl-40 w-full">Sign In</h3>
-              <div className="flex bg-amber-700 rounded-xl mb-4">
+              <h3 className="text-2xl text-orange-600 font-bold mb-6 mt-5 pl-40 w-full">
+                Sign Up
+              </h3>
+              {/* <div className="flex bg-amber-700 rounded-xl mb-4">
                 <button className={` text-white w-1/2 font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline ${active ? "bg-blue-600" :" bg-amber-700"}`} onClick={handleuser}>
-                  User Signin
+                  User Signup
                 </button>
                 <button className={` w-1/2  text-black font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline ${!active ? "bg-gray-600" :"bg-amber-700"} `} onClick={handleuser}>
-                  Admin Signin
+                  Admin Signup
                 </button>
-              </div>
-              <div className="mb-4">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="username"
-
-                >
-                  Username
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="username"
-                  type="text"
-                  value={form.username}
-                  placeholder="Enter your username"
-                  onChange={(e)=>setform({...form,username:e.target.value})}
-                />
-              </div>
-              <div className=" mb-6">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="password"
-                >
-                  Password
-                </label>
-                <input
-                  className=" shadow appearance-none border rounded w-full py-2 px-3 text-gray-700  leading-tight focus:outline-none focus:shadow-outline"
-                  id="password"
-                  value={form.password}
-                  type={showpass ? "text" : "password"}
-                  placeholder="Enter your password"
-                  onChange={(e)=>setform({...form,password:e.target.value})}
-                />
-                
-                {showpass ? (
-                  <FaEye
-                    size="20" color="blue"
-                    onClick={() => showpassword()}
-                    className="relative bottom-7 left-90 text-gray-500 cursor-pointer"
-                  />
-                ) : (
-                  <LuEyeClosed
-                    size="20" color="orange"
-                    onClick={() => showpassword()}
-                    className="relative bottom-7 left-90 text-gray-500 cursor-pointer"
-                  />
-                )}
-                {err && <p className="text-red-500 text-xs mt-2">{err} </p>}
-              </div>
-
-              <div>
-                <label className="inline-flex items-center">
-                  <input
-                    type="checkbox"
-                    className="form-checkbox text-blue-600"
-                  />
-                  <span className="ml-2 text-gray-700">Remember Me</span>
-                </label>
-                <label className="float-right">
-                  <a
-                    href="#"
-                    className="text-blue-500 hover:text-blue-700 text-sm"
-                    onClick={()=>{navigate("/forgotpasswd")}}
-                  >
-                    Forgot Password?
-                  </a>
-                </label>
-              </div>
-              <div className="flex items-center justify-between">
+              </div> */}
+              <div className="flex bg-amber-700 rounded-xl mb-4">
                 <button
-                  className="cursor-pointer bg-blue-500 w-full  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline  mt-3"
                   type="button"
-                  onClick={(e)=>{handledata(e);}}
+                  className={`w-1/2 py-2 font-bold rounded-xl ${
+                    userrole === "user"
+                      ? "bg-blue-600 text-white"
+                      : "bg-amber-700 text-white"
+                  }`}
+                  onClick={() => {
+                    setuserrole("user");
+                    setform({ ...form, role: "user" });
+                  }}
                 >
-                  Sign In
+                  User
+                </button>
+
+                <button
+                  type="button"
+                  className={`w-1/2 py-2 font-bold rounded-xl ${
+                    userrole === "admin"
+                      ? "bg-gray-600 text-white"
+                      : "bg-amber-700 text-white"
+                  }`}
+                  onClick={() => {
+                    setuserrole("admin");
+                    setform({ ...form, role: "admin" });
+                  }}
+                >
+                  Admin
                 </button>
               </div>
-               <div>
-                <p className="text-sm  ml-10 mt-4" onClick={()=>{navigate("/login")}}>
-                  Already have an account?{" "}
-                  <a href="/login" className="text-blue-500 hover:text-blue-700">
-                    Login here
-                  </a>
-                </p>
-               </div>
+              {userrole === "admin" && (
+                <>
+                  <div className="mb-4">
+                    <label
+                      className="block text-gray-700 text-sm font-bold mb-2"
+                      htmlFor="username"
+                    >
+                      Username
+                    </label>
+                    <input
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      id="username"
+                      type="text"
+                      value={form.username}
+                      placeholder="Enter your username"
+                      onChange={(e) =>
+                        setform({ ...form, username: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className=" mb-6">
+                    <label
+                      className="block text-gray-700 text-sm font-bold mb-2"
+                      htmlFor="password"
+                    >
+                      Password
+                    </label>
+                    <input
+                      className=" shadow appearance-none border rounded w-full py-2 px-3 text-gray-700  leading-tight focus:outline-none focus:shadow-outline"
+                      id="password"
+                      value={form.password}
+                      type={showpass ? "text" : "password"}
+                      placeholder="Enter your password"
+                      onChange={(e) =>
+                        setform({ ...form, password: e.target.value })
+                      }
+                    />
+
+                    {showpass ? (
+                      <FaEye
+                        size="20"
+                        color="blue"
+                        onClick={() => showpassword()}
+                        className="relative bottom-7 left-90 text-gray-500 cursor-pointer"
+                      />
+                    ) : (
+                      <LuEyeClosed
+                        size="20"
+                        color="orange"
+                        onClick={() => showpassword()}
+                        className="relative bottom-7 left-90 text-gray-500 cursor-pointer"
+                      />
+                    )}
+                    {err && <p className="text-red-500 text-xs mt-2">{err} </p>}
+                  </div>
+                  <div>
+                    <label className="inline-flex items-center">
+                      <input
+                        type="checkbox"
+                        className="form-checkbox text-blue-600"
+                      />
+                      <span className="ml-2 text-gray-700">Remember Me</span>
+                    </label>
+                    <label className="float-right">
+                      <a
+                        href="#"
+                        className="text-blue-500 hover:text-blue-700 text-sm"
+                        onClick={() => {
+                          navigate("/forgotpasswd");
+                        }}
+                      >
+                        Forgot Password?
+                      </a>
+                    </label>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <button
+                      className="cursor-pointer bg-blue-500 w-full  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline  mt-3"
+                      type="button"
+                      onClick={(e) => {
+                        handledata(e);
+                      }}
+                    >
+                      Sign In
+                    </button>
+                  </div>
+                  <div>
+                    <p
+                      className="text-sm  ml-10 mt-4"
+                      onClick={() => {
+                        navigate("/login");
+                      }}
+                    >
+                      Already have an account?{" "}
+                      <a
+                        href="/login"
+                        className="text-blue-500 hover:text-blue-700"
+                      >
+                        Login here
+                      </a>
+                    </p>
+                  </div>
+                </>
+              )}
+
+              {userrole === "user" && (
+                <>
+                  <div className="mb-4">
+                    <p className="font-bold text-red-600 text-sm mb-13 mt-10 ml-5">
+                      ⚠️ Make sure all details are correct before submitting.
+                      Incorrect information may affect your registration. Future updates may not be possible after submission. Please double-check
+                    </p>
+
+                    <button
+                      className="shadow appearance-none font-bold rounded-xl w-2/3 py-2 ml-15 px-10 text-blue-700  bg-amber-300 leading-tight focus:outline-none focus:shadow-outline"
+                      id="username" onClick={() => navigate("/userform")}
+                    >
+                      View application
+                    </button>
+                  </div>
+                </>
+              )}
+
             </form>
           </div>
         </div>
