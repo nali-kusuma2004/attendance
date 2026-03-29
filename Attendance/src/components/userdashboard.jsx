@@ -47,7 +47,8 @@ export default function Userdashboard( ) {
 
         const data = await res.json();
 
-        setStudent(data);
+        setStudent(data.studentdata);
+        console.log(data.studentdata);
       } catch (err) {
         console.log(err);
       }
@@ -61,17 +62,17 @@ export default function Userdashboard( ) {
 
   const fetchAttendance = async () => {
 
-    if(!student.biometricid) return;
+    if(!student.biometricId) return;
 
     try{
 
       const res = await fetch(
-        `http://localhost:8000/api/attendance/${student.biometricid}`
+        `http://localhost:8000/api/attendance/${student.biometricId}`
       );
 
-      const data = await res.json();
+      const data1 = await res.json();
 
-      setattendance(data);
+      setattendance(data1.attendance);
 
     }catch(err){
       console.log(err);
@@ -98,30 +99,39 @@ export default function Userdashboard( ) {
 
         {/* Student Details */}
 
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          <div className=" flex ">
-            <p className="text-gray-600 pr-3" >Name : </p>
-            <p className="font-semibold">{student.name}</p>
+        <div className="grid grid-cols-2  mb-6">
+          <div className=" flex p-4 ">
+            <p className="text-gray-600 pr-3 h-1/3" >Name : </p>
+            <p className="font-semibold ">{student.fullName}</p>
+            <p className=" text-gray-600 pl-20 mt-15 -ml-43"> Roll No : </p>
+            <p className="font-semibold pl-20 mt-15 -ml-18 " >{student.rollNo}</p>
           </div>
-
-          <div className=" flex ">
-            <p className="text-gray-600 pr-3">Roll No : </p>
-            <p className="font-semibold">{student.rollNo}</p>
-          </div>
-
-          <div className=" flex ">
+           <div className="w-full md:w-1/3 flex justify-center md:justify-end mt-6 md:mt-0 ml-20 mt-5">
+      <img
+        src={student.photo || "/default.png"}
+        alt="Student"
+        className="w-50 h-30 object-cover  rounded-4xl shadow-md "
+      />
+    </div>
+  
+          <div className=" flex p-4 ">
             <p className="text-gray-600 pr-3 ">Department : </p>
-            <p className="font-semibold">{student.department}</p>
+            <p className="font-semibold">{student.branch}</p>
           </div>
 
-          <div className=" flex ">
+          <div className=" flex p-4 ml-10">
             <p className="text-gray-600 pr-3 ">Bio-metric ID : </p>
-            <p className="font-semibold">{student.biometricid}</p>
+            <p className="font-semibold">{student.biometricId}</p>
           </div>
 
-          <div className="col-span-2  flex ">
+          <div className="  flex p-4">
             <p className="text-gray-600 pr-3 ">Email : </p>
             <p className="font-semibold">{student.email}</p>
+          </div>
+           
+           <div className="  flex p-4 ml-10">
+            <p className="text-gray-600 pr-3 ">Phone No: </p>
+            <p className="font-semibold">{student.phone}</p>
           </div>
         </div>
 

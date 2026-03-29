@@ -91,7 +91,7 @@ const newUser = new User1({
 });
 
 await newUser.save();
-console.log("New user created:", newUser);
+// console.log("New user created:", newUser);
 res.status(201).json({
   message:"User created successfully"
 });
@@ -297,15 +297,23 @@ server.post("/api/studentdata", async (req,res)=>{
 
 const {username} = req.body;
 
-const student = await Student.findOne({ name: username });
+const student = await Student.findOne({ fullName: username });
 
 if(!student){
   return res.status(404).json({
     message:"Student not found"
   })
 }
+let photobase=null;
+if(student.photo && student.photo.data){
+  photobase = `data:${student.photo.contentType};base64,${student.photo.data.toString('base64')}`;
+}
+res.json({
+message :"student found " , studentdata:{ ...student.toObject(), photo:photobase}
+})
+
 // console.log(student);
-res.json(student);
+//res.json({ message :"student found " ,studentdata:student });
 
 })
 
@@ -313,11 +321,11 @@ res.json(student);
 server.post("/api/attendance", async (req, res) => {
   try {
 
-    const { rollNo, biometricid } = req.body;
+    const { rollNo, biometricId } = req.body;
 
     const student = await Student.findOne({
       rollNo: rollNo,
-      biometricid: biometricid
+      biometricId: biometricId
     });
     // console.log(student);
     if (!student) {
@@ -333,7 +341,7 @@ server.post("/api/attendance", async (req, res) => {
     end.setHours(23, 59, 59, 999);
 
     const alreadyMarked = await Attendance.findOne({
-      biometricid : biometricid,
+      biometricId : biometricId,
       date: { $gte: start, $lte: end }
     });
 
@@ -343,7 +351,7 @@ server.post("/api/attendance", async (req, res) => {
 
     const attendance = new Attendance({
       studentId: student._id,
-      biometricid: student.biometricid,
+      biometricId: student.biometricId,
       status: "Present",
       date: new Date()
     });
@@ -358,9 +366,9 @@ server.post("/api/attendance", async (req, res) => {
   }
 });
 
-server.get("/api/attendance/:biometricid", async (req, res) => {
+server.get("/api/attendance/:biometricId", async (req, res) => {
 
-  const biometricid = req.params.biometricid;
+  const biometricId = req.params.biometricId;
 
   try {
 
@@ -374,7 +382,7 @@ server.get("/api/attendance/:biometricid", async (req, res) => {
 
     // count present days
     const present = await Attendance.countDocuments({
-      biometricid:biometricid,
+      biometricId:biometricId,
       status: "Present",
       date: { $gte: startOfMonth }
     });
@@ -383,13 +391,13 @@ server.get("/api/attendance/:biometricid", async (req, res) => {
     const percentage = total > 0
       ? ((present / total) * 100).toFixed(1)
       : 0;
-
-    res.json({
-      total,
-      present,
-      absent,
-      percentage
-    });
+    const attendance = {
+      total:total,
+      present:present,
+      absent:absent,
+      percentage:percentage 
+    }
+    res.json({ message : "Attendance fetched successfully", attendance: attendance});
 
   } catch (err) {
     console.log(err);

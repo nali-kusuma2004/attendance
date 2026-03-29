@@ -75,8 +75,6 @@ export const syncUsers = async (req, res) => {
 // ✅ SYNC ATTENDANCE
 export const syncAttendances = async (req, res) => {
   try {
-   
-
     const logs = await device.getAttendances();
     const attendanceLogs = logs?.data || [];
 
@@ -91,10 +89,15 @@ export const syncAttendances = async (req, res) => {
 
     for (const log of attendanceLogs) {
       const biometricId = String(log.deviceUserId).trim();
+      const logTime = new Date(log.recordTime || log.timestamp);
+
+      // ✅ FILTER BY TODAY
+      if (logTime < startOfDay || logTime > endOfDay) {
+        continue;
+      }
 
       if (!biometricId) continue;
 
-      // 🔍 Find student using biometricId
       const student = await Student.findOne({ biometricId });
 
       if (!student) {
@@ -103,7 +106,7 @@ export const syncAttendances = async (req, res) => {
         continue;
       }
 
-      // ❌ CHECK DUPLICATE (IMPORTANT)
+      // ✅ CHECK DUPLICATE FOR SAME DAY
       const alreadyMarked = await Attendance.findOne({
         biometricId,
         date: { $gte: startOfDay, $lte: endOfDay }
@@ -114,15 +117,14 @@ export const syncAttendances = async (req, res) => {
         skipped++;
         continue;
       }
-
-      // ✅ SAVE ATTENDANCE
+      const IstTime = new Date(logTime.getTime() + (5.5 * 60 * 60 * 1000));
       await Attendance.create({
         studentId: student._id,
         biometricId,
         rollNo: student.rollNo,
-        department: student.department,
+        department: student.branch,
         year: student.year,
-        date: new Date(),
+        date: IstTime, // 🔥 USE DEVICE TIME
         status: "Present"
       });
 
@@ -130,18 +132,10 @@ export const syncAttendances = async (req, res) => {
       saved++;
     }
 
-    // res.json({
-    //   message: "Attendance sync completed ✅",
-    //   saved,
-    //   skipped
-    // });
+    console.log(`🎯 Saved: ${saved}, Skipped: ${skipped}`);
 
   } catch (err) {
     console.error("❌ Error:", err.message);
-
-    // res.status(500).json({
-    //   error: "Attendance sync failed"
-    // });
   }
 };
 
@@ -163,4 +157,4 @@ async function startSync() {
   
 }
 
-// startSync();
+startSync();
