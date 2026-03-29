@@ -22,6 +22,7 @@ export default function Asideblock({isopen}) {
     {
       name: "Attendance",
       icon: <MdOutlineAccessTime size="28" color="cyan" />,
+      
     },
     { name: "Biometrics", icon: <MdFingerprint size="28" color="orange" /> },
     { name: "Request", icon: <MdRequestPage size="28" color="yellow" /> },

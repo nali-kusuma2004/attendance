@@ -479,3 +479,67 @@ server.get("/api/dept-attendance", async (req,res)=>{
 });
 
 
+const verifyToken = (req, res, next) => {
+  const bearerHeader = req.headers["authorization"];
+
+  if (!bearerHeader) {
+    return res.status(403).json({ message: "Token required" });
+  }
+
+  const token = bearerHeader.split(" ")[1];
+
+  try {
+    const decoded = jwt.verify(token, secretkey);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    return res.status(401).json({ message: "Invalid token" });
+  }
+};
+// dashboard data
+server.get("/api/dashboarddata", async (req, res) => {
+  try {
+    const totalStudents = await Student.countDocuments();
+    const totalStaff = await staff.countDocuments();
+
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+
+    const end = new Date();
+    end.setHours(23, 59, 59, 999);
+
+    const present = await Attendance.countDocuments({
+      date: { $gte: start, $lte: end },
+    });
+
+    const totalToday = await Attendance.countDocuments({
+      date: { $gte: start, $lte: end },
+    });
+
+    const absent = totalStudents - present;
+
+    const attendancePercent =
+      totalStudents > 0 ? ((present / totalStudents) * 100).toFixed(1) : 0;
+
+    // console.log({ totalStudents, totalStaff, present, absent });
+
+  const dashboarddata={
+    totalStudents,
+      totalStaff,
+      present,
+      absent,
+      attendance: attendancePercent,
+      lateEntries: 5,
+      onLeave: 2,
+      scans: totalToday,
+      deviceStatus: "Online",
+      fingerprintQuality: 85,
+      failedScans: 3,
+  }
+    res.json({data: dashboarddata});
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+

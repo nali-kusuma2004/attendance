@@ -157,4 +157,4 @@ async function startSync() {
   
 }
 
-startSync();
+// startSync();

@@ -1,6 +1,5 @@
 import Navbar from "./components/Navbar";
 import Dashboard from "./components/dashboard";
-import Staff from "./components/staff";
 import Signin from "./components/signin";
 import Login from "./components/login";
 import Home from "./components/home";
@@ -13,6 +12,7 @@ import Asideblock from "./components/asideblock.jsx";
 import Addstudent from "./components/addstudent.jsx";
 import Userdashboard from "./components/userdashboard.jsx";
 import Userform from "./components/userform.jsx"; 
+import Staff from "./dashboardfiles/staff.jsx";
 // import Layout from "./components/layout.jsx";
 export default function App(){
         //  const open=localStorage.getItem("opennavi");
