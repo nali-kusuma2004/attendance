@@ -4,6 +4,24 @@ import Charts from "./charts.jsx";
 export default function Liveattendance() {
   const [data, setData] = React.useState([]);
   const [chartData, setChartData] = React.useState(null);
+  const getDeptColor = (dept) => {
+    switch (dept) {
+      case "CSE" || "cse":
+        return "#3B82F6"; // blue
+      case "EEE" || "eee":
+        return "#EF4444";
+      case "CHEMICAL" || "chemical":
+        return "#8B5CF6"; // purple
+      case "ECE" || "ece":
+        return "#22C55E"; // green
+      case "MECH" || "mech":
+        return "#F97316"; // orange
+      case "CIVIL" || "civil":
+        return "#6B7280"; // gray
+      default:
+        return "#9CA3AF"; // fallback
+    }
+  };
   useEffect(() => {
     const attendancefetch = async () => {
       const res = await fetch("http://localhost:8000/api/today-attendance", {
@@ -32,15 +50,18 @@ export default function Liveattendance() {
           {
             label: "Attendance by Branch",
             data: values,
-            backgroundColor: "rgba(75,192,192,0.6)",
+            backgroundColor: labels.map((dept) => getDeptColor(dept)),
+            borderColor: labels.map((dept) => getDeptColor(dept)),
+            borderWidth: 1,
+            borderRadius: 6,
           },
         ],
       });
 
       console.log("Chart Data:", {
-  labels,
-  values
-});
+        labels,
+        values,
+      });
       console.log(data);
     };
     attendancefetch();
@@ -52,7 +73,7 @@ export default function Liveattendance() {
         {/* Live Attendance */}
         <div className="bg-white rounded-xl shadow p-5">
           <h2 className="text-xl font-semibold mb-4">Live Attendance</h2>
-          <ul className="space-y-3  h-40 overflow-scroll">
+          <ul className="space-y-3  h-70 overflow-scroll">
             {data &&
               data.map((entry) => {
                 const time = new Date(entry.date);
@@ -60,11 +81,11 @@ export default function Liveattendance() {
 
                 let bgColor = "";
 
-                if (hours < 16) {
+                if (hours < 4) {
                   bgColor = "bg-orange-400"; // before 4 PM
-                } else if (hours >= 16 && hours < 20) {
+                } else if (hours >= 4 && hours < 8) {
                   bgColor = "bg-green-500"; // 4 PM - 8 PM
-                } else if (hours >= 20 && hours < 21) {
+                } else if (hours >= 8 && hours < 9) {
                   bgColor = "bg-red-500"; // 8 PM - 9 PM
                 } else {
                   bgColor = "bg-gray-400"; // optional fallback
@@ -83,7 +104,14 @@ export default function Liveattendance() {
                       {entry.studentId.fullName}
                     </span>
 
-                    <span className="pr-2">{time.toLocaleTimeString()}</span>
+                    <span className="pr-2">
+                      {new Date(time).toLocaleTimeString("en-IN", {
+                        timeZone: "Asia/Kolkata",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true,
+                      })}
+                    </span>
                   </li>
                 );
               })}
@@ -97,12 +125,12 @@ export default function Liveattendance() {
 
         {/* Attendance Chart Placeholder */}
         <div className="bg-white rounded-xl shadow p-5">
-  {chartData?.labels && chartData.labels.length > 0 ? (
-    <Charts data={chartData} />
-  ) : (
-    <p>Loading chart...</p>
-  )}
-</div>
+          {chartData?.labels && chartData.labels.length > 0 ? (
+            <Charts data={chartData} />
+          ) : (
+            <p>Loading chart...</p>
+          )}
+        </div>
         {/* <Charts /> */}
       </div>
     </>

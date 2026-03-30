@@ -1,3 +1,4 @@
+require("./jobs/reportjob.js");
 const express=require("express");
 const multer = require("multer");
 const PORT=8000;
@@ -252,7 +253,7 @@ server.post("/api/student",upload.single("image"), async (req, res) => {
 
 
 //get student
-server.get("/api/student", async (req, res) => {
+server.get("/api/students", async (req, res) => {
 
 try{
 
@@ -522,19 +523,19 @@ server.get("/api/dashboarddata", async (req, res) => {
       totalStudents > 0 ? ((present / totalStudents) * 100).toFixed(1) : 0;
 
     // console.log({ totalStudents, totalStaff, present, absent });
-
+    
   const dashboarddata={
     totalStudents,
       totalStaff,
       present,
       absent,
       attendance: attendancePercent,
-      lateEntries: 5,
-      onLeave: 2,
+      lateEntries: 0,
+      onLeave: 0,
       scans: totalToday,
-      deviceStatus: "Online",
+      deviceStatus: Online,
       fingerprintQuality: 85,
-      failedScans: 3,
+      failedScans: 0,
   }
     res.json({data: dashboarddata});
   } catch (err) {
@@ -542,4 +543,7 @@ server.get("/api/dashboarddata", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+
+// device connection  status
 

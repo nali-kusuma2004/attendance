@@ -20,14 +20,14 @@ export default function Userdashboard( ) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          biometricid:student.biometricid,
+          biometricId:student.biometricId,
           rollNo: student.rollNo,
           status:"Present"
         }),
       });
 
       const data = await res.json();
-
+      console.log(data);
       alert(data.message);
     } catch (err) {
       console.log(err);

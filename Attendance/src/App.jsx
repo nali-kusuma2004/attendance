@@ -12,6 +12,7 @@ import Asideblock from "./components/asideblock.jsx";
 import Addstudent from "./components/addstudent.jsx";
 import Userdashboard from "./components/userdashboard.jsx";
 import Userform from "./components/userform.jsx"; 
+import Student from "./dashboardfiles/students.jsx";
 import Staff from "./dashboardfiles/staff.jsx";
 // import Layout from "./components/layout.jsx";
 export default function App(){
@@ -49,6 +50,7 @@ const [open, setopen] = useState(true);
          <Route path="/forgotpasswd" element={ <Forgotpasswd />}/>
          <Route path="/addstudent" element={<Addstudent />} />
          <Route path="/userform" element={<Userform />} />   
+         <Route path="/students" element={ <Student />} />
          {/* <Route path="/userdashboard" element={<Userdashboard />} /> */}
        </Routes>
        </BrowserRouter>

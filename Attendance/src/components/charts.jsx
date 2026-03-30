@@ -35,7 +35,4 @@ export default function Charts({ data }) {
       )}
     </div>
   );
-
-
-  
 }
