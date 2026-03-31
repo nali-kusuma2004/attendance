@@ -600,7 +600,7 @@ server.get("/api/export-attendance", async (req, res) => {
 
 
 // Get today's present students
-server.get("/api/attendance/present", async (req, res) => {
+server.get("/api/present", async (req, res) => {
   try {
     const todayStart = new Date();
     todayStart.setHours(0, 0, 0, 0);
@@ -615,8 +615,9 @@ server.get("/api/attendance/present", async (req, res) => {
 
     res.json({
       message: "Attendance fetched successfully",
-      attendance: presentStudents  // <--- send the array here
+      attendance: presentStudents   // ✅ ARRAY of students
     });
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
@@ -624,7 +625,7 @@ server.get("/api/attendance/present", async (req, res) => {
 });
 
 // Get today's absent students
-server.get("/api/attendance/absent", async (req, res) => {
+server.get("/api/absent", async (req, res) => {
   try {
     const todayStart = new Date();
     todayStart.setHours(0, 0, 0, 0);
@@ -632,12 +633,25 @@ server.get("/api/attendance/absent", async (req, res) => {
     const todayEnd = new Date();
     todayEnd.setHours(23, 59, 59, 999);
 
-    const absent = await Attendance.find({
+    // ✅ Step 1: Get today's present students
+    const present = await Attendance.find({
       date: { $gte: todayStart, $lte: todayEnd },
-      status: "Absent"
-    }).populate("studentId", "fullName rollNo branch year");
+      status: "Present"
+    });
 
-    res.json(absent);
+    // ✅ Step 2: Extract student IDs
+    const presentIds = present.map(p => p.studentId);
+
+    // ✅ Step 3: Get absent students (NOT in present list)
+    const absentStudents = await Student.find({
+      _id: { $nin: presentIds }
+    }).select("fullName rollNo branch year");
+
+    res.json({
+      message: "Absent students fetched",
+      absent: absentStudents   // ✅ full details
+    });
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
