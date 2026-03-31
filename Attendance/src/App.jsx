@@ -17,6 +17,7 @@ import Staff from "./dashboardfiles/staff.jsx";
 import Addstaff from "./components/addstaff.jsx";
 import Present from "./dashboardfiles/present.jsx";
 import Absent from "./dashboardfiles/absent.jsx";
+import MaintenancePage from "./components/maintainence.jsx";
 // import Layout from "./components/layout.jsx";
 export default function App(){
         //  const open=localStorage.getItem("opennavi");
@@ -57,6 +58,7 @@ const [open, setopen] = useState(true);
          <Route path="/addstaff" element={<Addstaff />} />
          <Route path="/present" element={<Present />} />
           <Route path="/absent" element={<Absent />} />
+          <Route path="/maintainence" element={<MaintenancePage />} />
          {/* <Route path="/userdashboard" element={<Userdashboard />} /> */}
        </Routes>
        </BrowserRouter>

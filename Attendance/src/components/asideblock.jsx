@@ -22,11 +22,12 @@ export default function Asideblock({isopen}) {
     {
       name: "Attendance",
       icon: <MdOutlineAccessTime size="28" color="cyan" />,
+      path:"/present"
       
     },
-    { name: "Biometrics", icon: <MdFingerprint size="28" color="orange" /> },
-    { name: "Request", icon: <MdRequestPage size="28" color="yellow" /> },
-    { name: "Additional", icon: <MdAddBox size="28" color="red" /> },
+    { name: "Biometrics", icon: <MdFingerprint size="28" color="orange" /> ,path:"/maintainence"},
+    { name: "Request", icon: <MdRequestPage size="28" color="yellow" /> , path:"/maintainence"},
+    { name: "Additional", icon: <MdAddBox size="28" color="red" /> ,path:"/maintainence"}
   ];
 
   

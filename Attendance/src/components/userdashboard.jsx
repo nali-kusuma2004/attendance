@@ -103,7 +103,7 @@ export default function Userdashboard( ) {
           <div className=" flex p-4 ">
             <p className="text-gray-600 pr-3 h-1/3" >Name : </p>
             <p className="font-semibold ">{student.fullName}</p>
-            <p className=" text-gray-600 pl-20 mt-15 -ml-43"> Roll No : </p>
+            <p className=" text-gray-600 pl-20 mt-15 -ml-57"> Roll No : </p>
             <p className="font-semibold pl-20 mt-15 -ml-18 " >{student.rollNo}</p>
           </div>
            <div className="w-full md:w-1/3 flex justify-center md:justify-end mt-6 md:mt-0 ml-20 mt-5">
