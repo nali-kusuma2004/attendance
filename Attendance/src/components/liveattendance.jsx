@@ -6,17 +6,17 @@ export default function Liveattendance() {
   const [chartData, setChartData] = React.useState(null);
   const getDeptColor = (dept) => {
     switch (dept) {
-      case "CSE" || "cse":
+      case "CSE" :
         return "#3B82F6"; // blue
-      case "EEE" || "eee":
+      case "EEE" :
         return "#EF4444";
-      case "CHEMICAL" || "chemical":
+      case "CHEMICAL" :
         return "#8B5CF6"; // purple
-      case "ECE" || "ece":
+      case "ECE" :
         return "#22C55E"; // green
-      case "MECH" || "mech":
+      case "MECH" :
         return "#F97316"; // orange
-      case "CIVIL" || "civil":
+      case "CIVIL":
         return "#6B7280"; // gray
       default:
         return "#9CA3AF"; // fallback
@@ -37,7 +37,7 @@ export default function Liveattendance() {
       const branchCount = {};
 
       data.forEach((item) => {
-        const branch = item.studentId?.branch || "Unknown";
+        const branch = (item.studentId?.branch || "Unknown").toUpperCase();
         branchCount[branch] = (branchCount[branch] || 0) + 1;
       });
 

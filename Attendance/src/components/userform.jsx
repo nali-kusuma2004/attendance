@@ -178,6 +178,7 @@ const formData = new FormData();
                 <input
                   type="date"
                   name="dob"
+                  placeholder="Date of Birth"
                   onChange={handleChange}
                   className="input bg-white text-black"
                 />
@@ -245,31 +246,32 @@ const formData = new FormData();
                 />
                 <input
                   name="course"
-                  placeholder="Course"
+                  placeholder="Course B.tech/M.tech/MCA"
                   onChange={handleChange}
                   className="input bg-white text-black"
                 />
                 <input
                   name="branch"
-                  placeholder="Branch"
+                  placeholder="Branch CSE/CHEMICAL/ECE/EEE/MECH/CIVIL"
                   onChange={handleChange}
                   className="input bg-white text-black"
                 />
                 <input
                   name="year"
-                  placeholder="Year"
+                  placeholder="Year I/II/III/IV"
                   onChange={handleChange}
                   className="input bg-white text-black"
                 />
                 <input
                   name="section"
-                  placeholder="Section"
+                  placeholder="Section REgular/AI & ML/SS"
                   onChange={handleChange}
                   className="input bg-white text-black"
                 />
                 <input
                   type="file"
                   name="image"
+                  placeholder="Upload Photo"
                   accept="image/*"
                   onChange={(e) => setForm({
     ...form,
@@ -289,18 +291,19 @@ const formData = new FormData();
                <input
                type="date"
                   name="admission date"
+                  placeholder="Admission Date"
                   onChange={handleChange}
                   className="input bg-white text-black"
                 />
                 <input
                   name="category"
-                  placeholder="Category"
+                  placeholder="Category GEN/OBC/SC/ST"
                   onChange={handleChange}
                   className="input bg-white text-black"
                 />
                 <input
                   name="entrance"
-                  placeholder="Entrance Rank"
+                  placeholder="Entrance Rank EAMCET/ICET/GATE/OTHER"
                   onChange={handleChange}
                   className="input bg-white text-black"
                 />
@@ -338,10 +341,12 @@ const formData = new FormData();
                 <h3 className="font-semibold mb-2">Account</h3>
                 <input
                   name="username"
-                  placeholder="Username"
+                  placeholder="Username "
                   onChange={handlechangeuser}
                   className="input bg-white text-black"
-                />
+                /> 
+                <p className="mb-2 text-red-600 font-bold text-sm "> 🔴 Username should match your full name in the application  </p>
+                
                 <input
                   type="password"
                   name="password"

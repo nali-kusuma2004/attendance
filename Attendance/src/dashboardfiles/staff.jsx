@@ -64,7 +64,6 @@ export default function Staff() {
       shift: "",
       experience: "",
       salary: "",
-      address: ""
     });
 
     // hide form

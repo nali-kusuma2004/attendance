@@ -14,7 +14,7 @@ const staffSchema = new mongoose.Schema({
   department: { type: String },
   shift: { type: String },
   experience: { type: String },
-  image: { type: String }
+  salary: { type: Number }
 })
 
 const studentSchema = new mongoose.Schema({

@@ -84,11 +84,13 @@ export default function Student() {
                 {openRow === student._id && (
                   <tr className="bg-gray-50">
                     <td colSpan="5" className="p-4">
-                      <div className="grid grid-cols-2 gap-4 text-gray-700">
+                      <div className="grid grid-cols-3 gap-4 text-gray-700">
+                        <p><b>Parent phone:</b>{student.parentPhone}</p>
                         <p><b>Email:</b> {student.email}</p>
                         <p><b>Phone:</b> {student.phone}</p>
-                        <p><b>Dept:</b> {student.department}</p>
+                        <p><b>Dept:</b> {student.branch}</p>
                         <p><b>Year:</b> {student.year}</p>
+                        
                       </div>
                     </td>
                   </tr>

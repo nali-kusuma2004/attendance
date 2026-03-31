@@ -1,5 +1,6 @@
 require("./jobs/reportjob.js");
 const express=require("express");
+const XLSX = require("xlsx");
 const multer = require("multer");
 const PORT=8000;
 const server=express();
@@ -533,7 +534,7 @@ server.get("/api/dashboarddata", async (req, res) => {
       lateEntries: 0,
       onLeave: 0,
       scans: totalToday,
-      deviceStatus: Online,
+      deviceStatus:" Online",
       fingerprintQuality: 85,
       failedScans: 0,
   }
@@ -547,3 +548,98 @@ server.get("/api/dashboarddata", async (req, res) => {
 
 // device connection  status
 
+
+//export xlsx report 
+server.get("/api/export-attendance", async (req, res) => {
+  try {
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+
+    const todayEnd = new Date();
+    todayEnd.setHours(23, 59, 59, 999);
+
+    const attendance = await Attendance.find({
+      date: { $gte: todayStart, $lte: todayEnd },
+      status: "Present"
+    }).populate("studentId", "fullName rollNo branch year");
+
+    if (!attendance.length) {
+      return res.status(404).json({ message: "No attendance found today" });
+    }
+
+    console.log(attendance); // Debug
+
+    const excelData = attendance.map((att) => ({
+      Name: att.studentId.fullName,
+      RollNo: att.studentId.rollNo,
+      Department: att.studentId.branch ? att.studentId.branch.toUpperCase() : "",
+      Year: att.studentId.year,
+      BiometricID: att.biometricId,
+      Date: att.date.toLocaleDateString("en-IN"),
+      Time: att.date.toLocaleTimeString("en-IN"),
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(excelData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Attendance");
+
+    const buf = XLSX.write(wb, { type: "buffer", bookType: "xlsx" });
+
+    const fileName = `Attendance_${new Date().toISOString().split("T")[0]}.xlsx`;
+    res.setHeader("Content-Disposition", `attachment; filename="${fileName}"`);
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+    res.send(buf);
+  } catch (err) {
+    console.error(err); // Will show exact reason
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
+// Get today's present students
+server.get("/api/attendance/present", async (req, res) => {
+  try {
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+
+    const todayEnd = new Date();
+    todayEnd.setHours(23, 59, 59, 999);
+
+    const presentStudents = await Attendance.find({
+      date: { $gte: todayStart, $lte: todayEnd },
+      status: "Present"
+    }).populate("studentId", "fullName rollNo branch year");
+
+    res.json({
+      message: "Attendance fetched successfully",
+      attendance: presentStudents  // <--- send the array here
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// Get today's absent students
+server.get("/api/attendance/absent", async (req, res) => {
+  try {
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+
+    const todayEnd = new Date();
+    todayEnd.setHours(23, 59, 59, 999);
+
+    const absent = await Attendance.find({
+      date: { $gte: todayStart, $lte: todayEnd },
+      status: "Absent"
+    }).populate("studentId", "fullName rollNo branch year");
+
+    res.json(absent);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});

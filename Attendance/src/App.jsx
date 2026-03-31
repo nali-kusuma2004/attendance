@@ -14,6 +14,9 @@ import Userdashboard from "./components/userdashboard.jsx";
 import Userform from "./components/userform.jsx"; 
 import Student from "./dashboardfiles/students.jsx";
 import Staff from "./dashboardfiles/staff.jsx";
+import Addstaff from "./components/addstaff.jsx";
+import Present from "./dashboardfiles/present.jsx";
+import Absent from "./dashboardfiles/absent.jsx";
 // import Layout from "./components/layout.jsx";
 export default function App(){
         //  const open=localStorage.getItem("opennavi");
@@ -51,6 +54,9 @@ const [open, setopen] = useState(true);
          <Route path="/addstudent" element={<Addstudent />} />
          <Route path="/userform" element={<Userform />} />   
          <Route path="/students" element={ <Student />} />
+         <Route path="/addstaff" element={<Addstaff />} />
+         <Route path="/present" element={<Present />} />
+          <Route path="/absent" element={<Absent />} />
          {/* <Route path="/userdashboard" element={<Userdashboard />} /> */}
        </Routes>
        </BrowserRouter>
