@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-
+const API_URL = import.meta.env.VITE_API_URL;
 export default function Staff() {
 
   const [staff, setStaff] = useState([]);
@@ -25,7 +25,7 @@ export default function Staff() {
 
   const fetchStaff = async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/staff");
+      const res = await fetch(`${API_URL}/api/staff`);
       const data = await res.json();
       setStaff(data);
     } catch (err) {
@@ -46,7 +46,7 @@ export default function Staff() {
 
     e.preventDefault();
 
-    await fetch("http://localhost:8000/api/staff", {
+    await fetch(`${API_URL}/api/staff`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -76,7 +76,7 @@ export default function Staff() {
   // delete staff
   const handleDelete = async (id) => {
 
-    await fetch(`http://localhost:8000/api/staff/${id}`, {
+    await fetch(`${API_URL}/api/staff/${id}`, {
       method: "DELETE"
     });
 
