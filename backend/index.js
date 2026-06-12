@@ -17,7 +17,7 @@ const { deviceconnec } = require("./deviceconnection/deviceconn");
 server.use(cors());
 server.use(express.json());
 server.use("/api",userroutes);
-const url="mongodb+srv://nalikusuma2004_db_user:attendance123@cluster0.wtyue9h.mongodb.net/userdata?retryWrites=true&w=majority";
+const url="mongodb+srv://nalikusuma2004_db_user:attendancejntua123@cluster0.wtyue9h.mongodb.net/?appName=Cluster0";
 
 mongoose.connect(url)
 .then(()=>console.log("Connected to MongoDB"))
