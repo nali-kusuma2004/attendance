@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import Charts from "./charts.jsx";
+const API_URL = import.meta.env.VITE_API_URL;
 export default function Liveattendance() {
   const [data, setData] = React.useState([]);
   const [chartData, setChartData] = React.useState(null);
@@ -24,7 +25,7 @@ export default function Liveattendance() {
   };
   useEffect(() => {
     const attendancefetch = async () => {
-      const res = await fetch("http://localhost:8000/api/today-attendance", {
+      const res = await fetch(`${API_URL}/api/today-attendance`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
