@@ -9,12 +9,12 @@ export default function Userdashboard( ) {
     absent:0,
     percentage:0
   });
-
+const API_URL = import.meta.env.VITE_API_URL;
   const username=localStorage.getItem("username") 
 
   const scanAttendance = async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/attendance", {
+      const res = await fetch(`${API_URL}/api/attendance`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,7 +37,7 @@ export default function Userdashboard( ) {
   useEffect(() => {
     const fetchStudent = async () => {
       try {
-        const res = await fetch("http://localhost:8000/api/studentdata", {
+        const res = await fetch(`${API_URL}/api/studentdata`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -67,7 +67,7 @@ export default function Userdashboard( ) {
     try{
 
       const res = await fetch(
-        `http://localhost:8000/api/attendance/${student.biometricId}`
+        `${API_URL}/api/attendance/${student.biometricId}`
       );
 
       const data1 = await res.json();
