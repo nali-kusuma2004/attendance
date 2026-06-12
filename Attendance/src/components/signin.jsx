@@ -7,6 +7,7 @@ import { LuEyeClosed } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Navbar from "./Navbar";
+const API_URL = import.meta.env.VITE_API_URL;
 export default function Signin() {
   const [showpass, setshowpass] = useState(false);
   const [form, setform] = useState({
@@ -43,7 +44,7 @@ export default function Signin() {
       );
     } else {
       try {
-        const res = await fetch("http://localhost:8000/sign", {
+        const res = await fetch(`${API_URL}/sign`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
