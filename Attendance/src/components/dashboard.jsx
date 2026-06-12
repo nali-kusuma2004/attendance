@@ -32,7 +32,7 @@ export default function Dashboard() {
       setopen(true);
     }
 
-    fetch(`${API_URL/api/dashboard`, {
+    fetch(`${API_URL}/api/dashboard`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
