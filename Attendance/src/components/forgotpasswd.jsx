@@ -4,7 +4,7 @@ import { IoArrowBack } from "react-icons/io5";
 import { FaEye } from "react-icons/fa";
 import { LuEyeClosed } from "react-icons/lu";
 import Navbar from "./Navbar";
-
+const API_URL = import.meta.env.VITE_API_URL;
 export default function Forgotpasswd() {
 
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ export default function Forgotpasswd() {
         // Implement password reset logic here
         alert("Password reset successful!");
         navigate("/login");
-        fetch("http://localhost:8000/api/reset-password", {
+        fetch(`${API_URL}/api/reset-password`, {
             method: "put",
             headers: {
 
