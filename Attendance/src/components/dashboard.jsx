@@ -4,6 +4,7 @@ import Mainblock from "./mainblock.jsx";
 import { useState } from "react";
 import { useEffect } from "react";
 import Navbar from "./Navbar.jsx";
+const API_URL = import.meta.env.VITE_API_URL;
 export default function Dashboard() {
   // const [page,setpage]=useState("dashboard");
   // const [user, setUser] = useState(null);
@@ -31,7 +32,7 @@ export default function Dashboard() {
       setopen(true);
     }
 
-    fetch("http://localhost:8000/api/dashboard", {
+    fetch(`${API_URL/api/dashboard`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
