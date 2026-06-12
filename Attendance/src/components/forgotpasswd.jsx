@@ -25,7 +25,7 @@ export default function Forgotpasswd() {
         alert("Password reset successful!");
         navigate("/login");
         fetch(`${API_URL}/api/reset-password`, {
-            method: "put",
+            method: "PUT",
             headers: {
 
                 
