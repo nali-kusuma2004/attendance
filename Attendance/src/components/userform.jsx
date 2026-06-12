@@ -7,6 +7,7 @@ export default function Userform() {
     password: "",
     userrole: "user",
   });
+  const API_URL = import.meta.env.VITE_API_URL;
   const [form, setForm] = useState({
     fullName: "",
     dob: "",
@@ -43,7 +44,7 @@ export default function Userform() {
 
 
   const handleuser = (e) => {
-  fetch("http://localhost:8000/sign", {
+  fetch(`${API_URL}/sign`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -101,7 +102,7 @@ const formData = new FormData();
       formData.append(key, form[key]);
     }
   });
-    const res = fetch("http://localhost:8000/api/student",{
+    const res = fetch(`${API_URL}/api/student`,{
       method: "POST",
       
       body: formData,
