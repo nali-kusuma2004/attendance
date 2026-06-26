@@ -1,5 +1,6 @@
 require("./jobs/reportjob.js");
 const express=require("express");
+const cors=require("cors");
 const XLSX = require("xlsx");
 const multer = require("multer");
 const PORT=8000;
