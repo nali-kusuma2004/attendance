@@ -4,14 +4,12 @@
   "description": "root",
   "private": true,
   "scripts": {
-    "server": "npm run dev --prefix backend",
+    "server": "npm start --prefix backend",
     "client": "npm run dev --prefix Attendance",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
-  "devDependencies": {
-    "concurrently": "^8.2.2"
-  },
   "dependencies": {
+    "cors": "^2.8.6",
     "emailjs": "^5.0.0",
     "multer": "^2.1.1",
     "mutter": "^1.0.1",
