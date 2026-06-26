@@ -16,7 +16,12 @@ const { deviceconnec } = require("./deviceconnection/deviceconn");
 
 
 server.use(cors({
-  origin: "https://attendance-pearl-five.vercel.app"
+   origin: [
+    "http://localhost:5173",
+    "https://attendance-pearl-five.vercel.app"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
 }));
 server.use(express.json());
 server.use("/api",userroutes);
