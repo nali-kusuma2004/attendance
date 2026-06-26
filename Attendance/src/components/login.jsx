@@ -19,6 +19,7 @@ export default function Login() {
     username: "",
     password: "",
   });
+  const API_URL = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
   function handleuser(e) {
     e.preventDefault();
@@ -45,7 +46,7 @@ export default function Login() {
         "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.",
       );
     }
-    const res=await fetch("http://localhost:8000/login",{
+    const res=await fetch(`${API_URL}/login`,{
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify(form),

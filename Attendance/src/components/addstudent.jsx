@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "./Navbar.jsx";
+const API_URL = import.meta.env.VITE_API_URL;
 export default function Addstudent() {
 
 const [formData, setFormData] = useState({
@@ -24,7 +25,7 @@ const handleSubmit = async (e) => {
   e.preventDefault();
 
   try {
-    const res = await fetch("http://localhost:8000/api/student", {
+    const res = await fetch(`${API_URL}/api/student`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

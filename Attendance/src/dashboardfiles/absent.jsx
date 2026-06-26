@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-
+const API_URL = import.meta.env.VITE_API_URL;
 export default function Absent() {
   const [students, setStudents] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/absent")
+    fetch(`${API_URL}/api/absent`)
       .then(res => res.json())
       .then(data => setStudents(Array.isArray(data.absent) ? data.absent : []))
       .catch(err => console.error(err));

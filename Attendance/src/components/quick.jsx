@@ -1,5 +1,6 @@
 import React from 'react'
 import {useNavigate} from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL;
 export default function Quick() {
 const navigate=useNavigate();
 
@@ -21,7 +22,7 @@ const navigate=useNavigate();
     <button
   className="bg-gray-500 text-white px-4 py-2 rounded-lg"
   onClick={() => {
-    fetch("http://localhost:8000/api/export-attendance", {
+    fetch(`${API_URL}/api/export-attendance`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,

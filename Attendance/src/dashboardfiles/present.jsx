@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-
+const API_URL = import.meta.env.VITE_API_URL;
 export default function Present() {
   const [students, setStudents] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/present",
+    fetch(`${API_URL}/api/present`,
       {
         method: "GET",
         headers: {

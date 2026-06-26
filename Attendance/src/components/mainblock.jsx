@@ -18,11 +18,11 @@ export default function Mainblock() {
   fingerprintQuality: 0,
   failedScans: 0,
 });
-
+const API_URL = import.meta.env.VITE_API_URL;
 useEffect(() => {
   const fetchStats = async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/dashboarddata", {
+      const res = await fetch(`${API_URL}/api/dashboarddata`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Addstaff() {
   const [staff, setStaff] = useState({
@@ -18,7 +19,7 @@ export default function Addstaff() {
 
   const handleSubmit = async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/staff", {
+      const res = await fetch(`${API_URL}/api/staff`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(staff)

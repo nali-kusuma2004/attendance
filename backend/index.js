@@ -18,16 +18,16 @@ const { deviceconnec } = require("./deviceconnection/deviceconn");
 server.use(cors());
 server.use(express.json());
 server.use("/api",userroutes);
-const url="mongodb+srv://nalikusuma2004_db_user:attendance123@cluster0.wtyue9h.mongodb.net/userdata?retryWrites=true&w=majority";
+const url="mongodb+srv://nalikusuma2004_db_user:attendancejntua123@cluster0.wtyue9h.mongodb.net/?appName=Cluster0";
 
 mongoose.connect(url)
 .then(()=>console.log("Connected to MongoDB"))
 .catch((err)=>console.error("Could not connect to MongoDB",err));
 
 
-// server.get("/",(req,res)=>{
-//     res.send("Hello World!");
-// });
+server.get("/",(req,res)=>{
+    res.send("Hello World!");
+});
 server.listen(PORT,()=>{
     console.log(`Server is running on http://localhost:${PORT}`);
     
