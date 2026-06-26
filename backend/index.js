@@ -15,7 +15,9 @@ const userroutes=require("./routes/userroutes");
 const { deviceconnec } = require("./deviceconnection/deviceconn");
 
 
-server.use(cors());
+server.use(cors({
+  origin: "https://attendance-pearl-five.vercel.app"
+}));
 server.use(express.json());
 server.use("/api",userroutes);
 const url="mongodb+srv://nalikusuma2004_db_user:attendancejntua123@cluster0.wtyue9h.mongodb.net/?appName=Cluster0";
