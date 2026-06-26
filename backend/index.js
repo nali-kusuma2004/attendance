@@ -1,6 +1,6 @@
 require("./jobs/reportjob.js");
+require("dotenv").config();
 const express=require("express");
-
 const XLSX = require("xlsx");
 const multer = require("multer");
 const PORT=8000;
@@ -20,9 +20,8 @@ server.use(cors({
 }));
 server.use(express.json());
 server.use("/api",userroutes);
-const url="mongodb+srv://nalikusuma2004_db_user:attendancejntua123@cluster0.wtyue9h.mongodb.net/?appName=Cluster0";
 
-mongoose.connect(url)
+mongoose.connect(process.env.MONGODB_URL)
 .then(()=>console.log("Connected to MongoDB"))
 .catch((err)=>console.error("Could not connect to MongoDB",err));
 
